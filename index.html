@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Capital — Corporate Strategy</title>
+  <meta name="description" content="Found companies. Control markets. Engineer mergers. Become the world's most powerful CEO. A Quantum Star game." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header class="topbar">
+      <div class="brand">
+        <h1>QUANTUM CAPITAL</h1>
+        <span class="eco">A Quantum Star Game</span>
+      </div>
+      <div class="spacer"></div>
+      <div class="turn-chip" id="turnChip">TURN <b>0</b></div>
+    </header>
+
+    <main>
+      <!-- LEFT: live market -->
+      <section class="col left">
+        <div class="panel">
+          <h2>Live Market</h2>
+          <div id="marketList"></div>
+        </div>
+        <div class="panel">
+          <h2>Ticker</h2>
+          <div class="log" id="log"></div>
+        </div>
+      </section>
+
+      <!-- CENTER: board + hand -->
+      <section class="col center">
+        <div class="phase-bar">
+          <div class="now" id="phaseNow"></div>
+          <div class="spacer"></div>
+          <div style="font-family:var(--mono);font-size:12px;color:var(--text-dim)">
+            CASH <b id="cash" style="color:var(--good)">$0</b>
+            &nbsp;·&nbsp; NET <b id="networth" style="color:var(--gold)">$0</b>
+          </div>
+        </div>
+        <div class="board-wrap"><canvas id="board"></canvas></div>
+        <div class="hand" id="hand"></div>
+        <div class="hand" id="controls" style="margin-top:2px"></div>
+        <div class="footnote">
+          Click a <span class="kbd">tile</span> in your hand (or its cell on the board) to place an operation.
+          Connect nodes to <b>found</b> companies, extend them to <b>grow</b>, bridge two to <b>merge</b>.
+        </div>
+      </section>
+
+      <!-- RIGHT: boardroom -->
+      <section class="col right">
+        <div class="panel">
+          <h2>The Boardroom</h2>
+          <div id="players"></div>
+        </div>
+        <div class="panel">
+          <h2>How to win</h2>
+          <div style="font-size:12px;color:var(--text-dim);line-height:1.55">
+            Build market presence, corner industries by owning the most shares, and time the
+            <b style="color:var(--gold)">mergers</b> that pay <b>10×</b> / <b>5×</b> bonuses to the top two shareholders.
+            When a company hits <b>41 presence</b> — or every company is <b>safe</b> — the market settles and the
+            highest net worth wins.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+
+  <!-- engine -->
+  <script src="js/data.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/ui.js"></script>
+</body>
+</html>
