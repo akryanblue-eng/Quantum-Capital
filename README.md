@@ -14,7 +14,14 @@ zero-dependency browser build focused on proving the core loop:
 
 ## Play it
 
-Open `index.html` in any modern browser. No build step, no server, no install.
+Open `index.html` in any modern browser — **desktop or phone**. No build step, no server, no install.
+
+On desktop you get the full 3-column command center. On a phone it becomes a
+**Mobile Command Center**: the board is the hero (pinch-zoom / drag-pan / zoom
+buttons), tapping an operation tile arms a placement you confirm from a bottom
+bar (so you never misfire on a pan), and the Market and Boardroom collapse into
+bottom sheets. Portrait and landscape are both supported, with iPhone safe-area
+insets handled.
 
 1. **Take the corner office** — pick your CEO (each has a passive ability).
 2. **Place operations** — click a tile in your hand (or its cell on the board).
@@ -81,10 +88,10 @@ Plain HTML5 + Canvas + vanilla JS. No framework, no build. Three layers:
 
 ```
 index.html      # shell + command-center layout
-css/styles.css  # neon financial-command-center theme (light DOM panels)
+css/styles.css  # neon theme + responsive mobile command center (sheets, dock, safe-area)
 js/data.js      # industries, CEOs, pricing tables, market-event deck
 js/game.js      # engine: board, founding/growth/merger, live market, AI CEO brain
-js/ui.js        # canvas board rendering, panels, decision modals, turn flow
+js/ui.js        # canvas board (fit/zoom/pan), panels, bottom sheets, decision modals, turn flow
 ```
 
 `js/game.js` is UI-agnostic and fully deterministic given its inputs, so the rules

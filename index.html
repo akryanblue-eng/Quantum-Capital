@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#05060f" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <title>Quantum Capital — Corporate Strategy</title>
   <meta name="description" content="Found companies. Control markets. Engineer mergers. Become the world's most powerful CEO. A Quantum Star game." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
@@ -16,12 +19,17 @@
         <span class="eco">A Quantum Star Game</span>
       </div>
       <div class="spacer"></div>
+      <div class="hud">
+        <span>CASH <b id="cash" style="color:var(--good)">$0</b></span>
+        <span>NET <b id="networth" style="color:var(--gold)">$0</b></span>
+      </div>
       <div class="turn-chip" id="turnChip">TURN <b>0</b></div>
     </header>
 
     <main>
-      <!-- LEFT: live market -->
-      <section class="col left">
+      <!-- LEFT: live market (bottom sheet on mobile) -->
+      <section class="col left" id="sheetMarket">
+        <div class="sheet-grab" data-sheet="market"><span></span></div>
         <div class="panel">
           <h2>Live Market</h2>
           <div id="marketList"></div>
@@ -37,29 +45,40 @@
         <div class="phase-bar">
           <div class="now" id="phaseNow"></div>
           <div class="spacer"></div>
-          <div style="font-family:var(--mono);font-size:12px;color:var(--text-dim)">
-            CASH <b id="cash" style="color:var(--good)">$0</b>
-            &nbsp;·&nbsp; NET <b id="networth" style="color:var(--gold)">$0</b>
+          <div class="phase-hud">
+            CASH <b id="cash2" style="color:var(--good)">$0</b>
+            &nbsp;·&nbsp; NET <b id="networth2" style="color:var(--gold)">$0</b>
           </div>
         </div>
-        <div class="board-wrap"><canvas id="board"></canvas></div>
-        <div class="hand" id="hand"></div>
-        <div class="hand" id="controls" style="margin-top:2px"></div>
-        <div class="footnote">
-          Click a <span class="kbd">tile</span> in your hand (or its cell on the board) to place an operation.
-          Connect nodes to <b>found</b> companies, extend them to <b>grow</b>, bridge two to <b>merge</b>.
+
+        <div class="board-area">
+          <canvas id="board"></canvas>
+          <div class="zoom-ctl">
+            <button data-zoom="in"  aria-label="Zoom in">+</button>
+            <button data-zoom="out" aria-label="Zoom out">−</button>
+            <button data-zoom="reset" aria-label="Reset view">⤢</button>
+          </div>
+        </div>
+
+        <div class="dock">
+          <div class="hand" id="hand"></div>
+          <div class="controls" id="controls"></div>
+          <div class="dock-hint" id="dockHint">
+            Tap an <span class="kbd">operation</span> to place it · connect nodes to <b>found</b>, extend to <b>grow</b>, bridge two to <b>merge</b>.
+          </div>
         </div>
       </section>
 
-      <!-- RIGHT: boardroom -->
-      <section class="col right">
+      <!-- RIGHT: boardroom (bottom sheet on mobile) -->
+      <section class="col right" id="sheetBoard">
+        <div class="sheet-grab" data-sheet="board"><span></span></div>
         <div class="panel">
           <h2>The Boardroom</h2>
           <div id="players"></div>
         </div>
         <div class="panel">
           <h2>How to win</h2>
-          <div style="font-size:12px;color:var(--text-dim);line-height:1.55">
+          <div style="font-size:13px;color:var(--text-dim);line-height:1.55">
             Build market presence, corner industries by owning the most shares, and time the
             <b style="color:var(--gold)">mergers</b> that pay <b>10×</b> / <b>5×</b> bonuses to the top two shareholders.
             When a company hits <b>41 presence</b> — or every company is <b>safe</b> — the market settles and the
@@ -68,8 +87,26 @@
         </div>
       </section>
     </main>
+
+    <!-- Mobile bottom navigation -->
+    <nav class="mobilebar">
+      <button class="mb-btn" data-open="market"><span class="mb-ic">📈</span><span>Market</span></button>
+      <div class="mb-center" id="mbPhase">Your move</div>
+      <button class="mb-btn" data-open="board"><span class="mb-ic">🏛️</span><span>Boardroom</span></button>
+    </nav>
   </div>
 
+  <!-- Placement confirm bar (touch) -->
+  <div class="confirm-bar" id="confirmBar">
+    <div class="cb-text">Place operation at <b id="cbCell">—</b>?</div>
+    <div class="cb-actions">
+      <button class="ghost" id="cbCancel">Cancel</button>
+      <button class="action" id="cbPlace">Build here</button>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="toast" id="toast"></div>
   <div class="overlay" id="overlay"></div>
 
   <!-- engine -->
